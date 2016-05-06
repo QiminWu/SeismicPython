@@ -1,0 +1,486 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>seispy.util &mdash; SeismicPython 0.0alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="SeismicPython 0.0alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for seispy.util</h1><div class="highlight"><pre>
+<span class="c">#import native python functionality</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">cpu_count</span><span class="p">,</span>\
+                            <span class="n">Pipe</span><span class="p">,</span>\
+                            <span class="n">Process</span><span class="p">,</span>\
+                            <span class="n">Queue</span>
+<span class="kn">from</span> <span class="nn">Queue</span> <span class="kn">import</span> <span class="n">Empty</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="c">#import 3rd party package functionality</span>
+<span class="kn">from</span> <span class="nn">obspy.core</span> <span class="kn">import</span> <span class="n">UTCDateTime</span>
+
+<span class="c">#######################</span>
+<span class="c">#                     #</span>
+<span class="c">#  CLASS DEFINITIONS  #</span>
+<span class="c">#                     #</span>
+<span class="c">#######################</span>
+
+<div class="viewcode-block" id="MultiThreadProcess"><a class="viewcode-back" href="../../seispy/util/classes/public/MultiThreadProcess.html#seispy.util.MultiThreadProcess">[docs]</a><span class="k">class</span> <span class="nc">MultiThreadProcess</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to facilitate multi-threaded processing.</span>
+
+<span class="sd">    +--------------+---------------+</span>
+<span class="sd">    |Public Methods|Private Methods|</span>
+<span class="sd">    +==============+===============+</span>
+<span class="sd">    |:meth:`start` |               |</span>
+<span class="sd">    +--------------+---------------+</span>
+
+<span class="sd">    :argument generator inputter: a generator that will yield objects</span>
+<span class="sd">                                  to process</span>
+<span class="sd">    :argument function main_processor: a function to process objects on</span>
+<span class="sd">                                       the input queue and put process</span>
+<span class="sd">                                       result objects on the output</span>
+<span class="sd">                                       queue</span>
+<span class="sd">    :argument function outputter: a function to output the process</span>
+<span class="sd">                                  result objects</span>
+<span class="sd">    :keyword dict extra_args: a :class:`dict` to provide initialization</span>
+<span class="sd">                              arguments and keyword arguments to</span>
+<span class="sd">                              ``inputter``, ``main_processor`` and</span>
+<span class="sd">                              ``outputter``</span>
+<span class="sd">    :keyword dict config_params: a :class:`dict` to provide</span>
+<span class="sd">                                 configuration parameters</span>
+<span class="sd">    :raise TypeError: if arguments are of invalid type</span>
+<span class="sd">    :raise ValueError: if arguments are of invalid type</span>
+
+
+<span class="sd">    +------------------------------------------------------------------+</span>
+<span class="sd">    |extra_args                                                        |</span>
+<span class="sd">    +------------------+-----------------------------------------------+</span>
+<span class="sd">    |Keyword           |Description                                    |</span>
+<span class="sd">    +==================+===============================================+</span>
+<span class="sd">    |input_init_args   |a :class:`list` of arguments to be passed      |</span>
+<span class="sd">    |                  |straight to ``inputter`` generator.            |</span>
+<span class="sd">    +------------------+-----------------------------------------------+</span>
+<span class="sd">    |input_init_kwargs |a :class:`dict` of keyword arguments to be     |</span>
+<span class="sd">    |                  |passed straight to ``inputtter`` generator.    |</span>
+<span class="sd">    +------------------+-----------------------------------------------+</span>
+<span class="sd">    |main_init_args    |a :class:`list` of positional arguments to be  |</span>
+<span class="sd">    |                  |passed straight to ``main_processor`` function,|</span>
+<span class="sd">    |                  |immediately following object to be processed.  |</span>
+<span class="sd">    +------------------+-----------------------------------------------+</span>
+<span class="sd">    |main_init_kwargs  |a :class:`dict` of keyword arguments to be     |</span>
+<span class="sd">    |                  |passed straight to ``main_processor`` function.|</span>
+<span class="sd">    +------------------+-----------------------------------------------+</span>
+<span class="sd">    |output_init_args  |a :class:`list` of positional arguments to be  |</span>
+<span class="sd">    |                  |passed straight to ``outputter`` function,     |</span>
+<span class="sd">    |                  |immediately following processed object.        |</span>
+<span class="sd">    +------------------+-----------------------------------------------+</span>
+<span class="sd">    |output_init_kwargs|A :class:`dict` of keyword arguments to be     |</span>
+<span class="sd">    |                  |passed straight to ``outputter`` function.     |</span>
+<span class="sd">    +------------------+-----------------------------------------------+</span>
+
+<span class="sd">    .. automethod:: start</span>
+
+<span class="sd">    .. versionadded:: 0.0alpha</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">inputter</span><span class="p">,</span>
+                 <span class="n">main_processor</span><span class="p">,</span>
+                 <span class="n">outputter</span><span class="p">,</span>
+                 <span class="n">extra_args</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">config_params</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c"># type check the input args, kwargs</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="p">(</span><span class="n">inputter</span><span class="p">,</span> <span class="n">main_processor</span><span class="p">,</span> <span class="n">outputter</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span>
+        <span class="k">if</span> <span class="n">extra_args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extra_args</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;input_init_args&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;main_init_args&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;output_init_args&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">extra_args</span>\
+                        <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extra_args</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">)</span>\
+                        <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extra_args</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">extra_args</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;input_init_kwargs&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;main_init_kwargs&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;output_init_kwargs&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">extra_args</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extra_args</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">extra_args</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;input_init_args&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;main_init_args&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;output_init_args&#39;</span><span class="p">):</span>
+                <span class="n">extra_args</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;input_init_kwargs&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;main_init_kwargs&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;output_init_kwargs&#39;</span><span class="p">):</span>
+                <span class="n">extra_args</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">config_params</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config_params</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">config_params</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;n_threads&#39;</span><span class="p">:</span> <span class="n">cpu_count</span><span class="p">(),</span>
+                             <span class="s">&#39;input_q_max_size&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+                             <span class="s">&#39;output_q_max_size&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra_args</span> <span class="o">=</span> <span class="n">extra_args</span>
+        <span class="c">#initialize the object attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_params</span> <span class="o">=</span> <span class="n">config_params</span>
+        <span class="c">#configure IO and processing threads</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_q</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_params</span><span class="p">[</span><span class="s">&#39;input_q_max_size&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_q</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_params</span><span class="p">[</span><span class="s">&#39;output_q_max_size&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_process</span> <span class="o">=</span> <span class="n">_InputProcess</span><span class="p">(</span><span class="n">inputter</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">input_q</span><span class="p">,</span>
+                                          <span class="o">*</span><span class="n">extra_args</span><span class="p">[</span><span class="s">&#39;input_init_args&#39;</span><span class="p">],</span>
+                                          <span class="o">**</span><span class="n">extra_args</span><span class="p">[</span><span class="s">&#39;input_init_kwargs&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_process</span> <span class="o">=</span> <span class="n">_OutputProcess</span><span class="p">(</span><span class="n">outputter</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">output_q</span><span class="p">,</span>
+                                            <span class="o">*</span><span class="n">extra_args</span><span class="p">[</span><span class="s">&#39;output_init_args&#39;</span><span class="p">],</span>
+                                            <span class="o">**</span><span class="n">extra_args</span><span class="p">[</span><span class="s">&#39;output_init_kwargs&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">main_pool</span> <span class="o">=</span> <span class="n">_MainPool</span><span class="p">(</span><span class="n">main_processor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MultiThreadProcess.start"><a class="viewcode-back" href="../../seispy/util/classes/public/MultiThreadProcess.html#seispy.util.MultiThreadProcess.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start multi-threaded processing. This method will block until</span>
+<span class="sd">        processing is complete and all threads have been terminated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_process</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">main_pool</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_process</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_process</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">main_pool</span><span class="o">.</span><span class="n">signal_kill</span><span class="p">()</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">main_pool</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_process</span><span class="o">.</span><span class="n">signal_kill</span><span class="p">()</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_process</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="_InputProcess"><a class="viewcode-back" href="../../seispy/util/classes/private/_InputProcess.html#seispy.util._InputProcess">[docs]</a><span class="k">class</span> <span class="nc">_InputProcess</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A wrapper class for the input thread.</span>
+
+<span class="sd">    +--------------+-----------------------+</span>
+<span class="sd">    |Public Methods|Private Methods        |</span>
+<span class="sd">    +==============+=======================+</span>
+<span class="sd">    |:meth:`join`  |:meth:`_target_wrapper`|</span>
+<span class="sd">    +--------------+                       +</span>
+<span class="sd">    |:meth:`start` |                       |</span>
+<span class="sd">    +--------------+-----------------------+</span>
+
+<span class="sd">    :argument generator target: a generator that yields objects to be</span>
+<span class="sd">                                processed</span>
+<span class="sd">    :argument Queue.Queue input_q: a :class:`Queue.Queue` object</span>
+<span class="sd">                                   to place objects to be processed on</span>
+<span class="sd">    :argument tuple \*args: a deferenced :class:`tuple` containing</span>
+<span class="sd">                            positional arguments to be passed directly</span>
+<span class="sd">                            through to ``target`` input generator</span>
+<span class="sd">    :argument dict \*\*kwargs: a double dereferenced :class:`dict`</span>
+<span class="sd">                               containing keyword arguments to be</span>
+<span class="sd">                               passed directly through to ``target``</span>
+<span class="sd">                               input generator</span>
+
+<span class="sd">    .. automethod:: join</span>
+
+<span class="sd">    .. automethod:: start</span>
+
+<span class="sd">    .. automethod:: _target_wrapper</span>
+
+<span class="sd">    .. versionadded:: 0.0alpha</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">input_q</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_q</span> <span class="o">=</span> <span class="n">input_q</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_wrapper</span><span class="p">)</span>
+
+<div class="viewcode-block" id="_InputProcess.start"><a class="viewcode-back" href="../../seispy/util/classes/private/_InputProcess.html#seispy.util._InputProcess.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start input process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="_InputProcess._target_wrapper"><a class="viewcode-back" href="../../seispy/util/classes/private/_InputProcess.html#seispy.util._InputProcess._target_wrapper">[docs]</a>    <span class="k">def</span> <span class="nf">_target_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A wrapper to place objects from ``target`` generator on</span>
+<span class="sd">        ``input_q``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="_InputProcess.join"><a class="viewcode-back" href="../../seispy/util/classes/private/_InputProcess.html#seispy.util._InputProcess.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Force calling function to block until input process is complete.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</div></div>
+<div class="viewcode-block" id="_OutputProcess"><a class="viewcode-back" href="../../seispy/util/classes/private/_OutputProcess.html#seispy.util._OutputProcess">[docs]</a><span class="k">class</span> <span class="nc">_OutputProcess</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A wrapper class for the output thread.</span>
+
+<span class="sd">    +---------------------+-----------------------+</span>
+<span class="sd">    |Public Methods       |Private Methods        |</span>
+<span class="sd">    +=====================+=======================+</span>
+<span class="sd">    |:meth:`is_alive`     |:meth:`_target_wrapper`|</span>
+<span class="sd">    +---------------------+                       +</span>
+<span class="sd">    |:meth:`signal_kill`  |                       |</span>
+<span class="sd">    +---------------------+                       +</span>
+<span class="sd">    |:meth:`start`        |                       |</span>
+<span class="sd">    +---------------------+-----------------------+</span>
+
+<span class="sd">    :argument function target: target function to output processed</span>
+<span class="sd">                               objects</span>
+<span class="sd">    :argument Queue.Queue input_q: a :class:`Queue.Queue` object</span>
+<span class="sd">                                   containing processed objects</span>
+<span class="sd">    :argument tuple \*args: a dereferenced tuple of positional</span>
+<span class="sd">                            arguments to be passed straight through to</span>
+<span class="sd">                            ``target`` output function</span>
+<span class="sd">    :argument dict \*\*kwargs: a double-dereferenced :class:`dict` of</span>
+<span class="sd">                               keyword arguments to be passed straight</span>
+<span class="sd">                               through to ``target`` output function</span>
+
+<span class="sd">    .. automethod:: is_alive</span>
+
+<span class="sd">    .. automethod:: signal_kill</span>
+
+<span class="sd">    .. automethod:: start</span>
+
+<span class="sd">    .. automethod:: _target_wrapper</span>
+
+<span class="sd">    .. versionadded:: 0.0alpha</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">output_q</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_q</span> <span class="o">=</span> <span class="n">output_q</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_wrapper</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pconn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cconn</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">()</span>
+
+<div class="viewcode-block" id="_OutputProcess.is_alive"><a class="viewcode-back" href="../../seispy/util/classes/private/_OutputProcess.html#seispy.util._OutputProcess.is_alive">[docs]</a>    <span class="k">def</span> <span class="nf">is_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return True if output process is still alive, else return False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="_OutputProcess.signal_kill"><a class="viewcode-back" href="../../seispy/util/classes/private/_OutputProcess.html#seispy.util._OutputProcess.signal_kill">[docs]</a>    <span class="k">def</span> <span class="nf">signal_kill</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send kill signal to output process. Output process will</span>
+<span class="sd">        terminate only when the output queue is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pconn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&#39;KILL&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="_OutputProcess.start"><a class="viewcode-back" href="../../seispy/util/classes/private/_OutputProcess.html#seispy.util._OutputProcess.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start output process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="_OutputProcess._target_wrapper"><a class="viewcode-back" href="../../seispy/util/classes/private/_OutputProcess.html#seispy.util._OutputProcess._target_wrapper">[docs]</a>    <span class="k">def</span> <span class="nf">_target_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A wrapper to take processed objects off the output queue and</span>
+<span class="sd">        pass them to the output function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">Empty</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cconn</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">cconn</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;KILL&#39;</span><span class="p">:</span>
+                    <span class="k">return</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="_MainPool"><a class="viewcode-back" href="../../seispy/util/classes/private/_MainPool.html#seispy.util._MainPool">[docs]</a><span class="k">class</span> <span class="nc">_MainPool</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A pool of processing threads.</span>
+
+<span class="sd">    +-------------------+-----------------------+</span>
+<span class="sd">    |Public Methods     |Private Methods        |</span>
+<span class="sd">    +===================+=======================+</span>
+<span class="sd">    |:meth:`is_alive`   |:meth:`_target_wrapper`|</span>
+<span class="sd">    +-------------------+-----------------------+</span>
+<span class="sd">    |:meth:`signal_kill`|                       |</span>
+<span class="sd">    +-------------------+                       +</span>
+<span class="sd">    |:meth:`start`      |                       |</span>
+<span class="sd">    +-------------------+-----------------------+</span>
+
+<span class="sd">    :argument function target: target main processing function</span>
+<span class="sd">    :argument MultiThreadProcess parent: parent</span>
+<span class="sd">                                         :class:`MultiThreadProcess`</span>
+
+<span class="sd">    .. automethod:: is_alive</span>
+
+<span class="sd">    .. automethod:: signal_kill</span>
+
+<span class="sd">    .. automethod:: start</span>
+
+<span class="sd">    .. automethod:: _target_wrapper</span>
+
+<span class="sd">    .. versionadded:: 0.0alpha</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_threads</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conns</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">for</span> <span class="n">thread_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">config_params</span><span class="p">[</span><span class="s">&#39;n_threads&#39;</span><span class="p">]):</span>
+            <span class="n">pconn</span><span class="p">,</span> <span class="n">cconn</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conns</span> <span class="o">+=</span> <span class="p">({</span><span class="s">&#39;pconn&#39;</span><span class="p">:</span> <span class="n">pconn</span><span class="p">,</span> <span class="s">&#39;cconn&#39;</span><span class="p">:</span> <span class="n">cconn</span><span class="p">},)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">process_threads</span> <span class="o">+=</span> <span class="p">(</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_wrapper</span><span class="p">,</span>
+                                             <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">thread_id</span><span class="p">,)),)</span>
+
+<div class="viewcode-block" id="_MainPool.is_alive"><a class="viewcode-back" href="../../seispy/util/classes/private/_MainPool.html#seispy.util._MainPool.is_alive">[docs]</a>    <span class="k">def</span> <span class="nf">is_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return True if main processing pool is still alive, else return</span>
+<span class="sd">        False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_threads</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">process</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="_MainPool.signal_kill"><a class="viewcode-back" href="../../seispy/util/classes/private/_MainPool.html#seispy.util._MainPool.signal_kill">[docs]</a>    <span class="k">def</span> <span class="nf">signal_kill</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send kill signal to main processing pool. Main processing pool</span>
+<span class="sd">        will not terminate until input queue is empty.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">thread_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conns</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conns</span><span class="p">[</span><span class="n">thread_id</span><span class="p">][</span><span class="s">&#39;pconn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&#39;KILL&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="_MainPool.start"><a class="viewcode-back" href="../../seispy/util/classes/private/_MainPool.html#seispy.util._MainPool.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start input process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">config_params</span><span class="p">[</span><span class="s">&#39;n_threads&#39;</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">process_threads</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="_MainPool._target_wrapper"><a class="viewcode-back" href="../../seispy/util/classes/private/_MainPool.html#seispy.util._MainPool._target_wrapper">[docs]</a>    <span class="k">def</span> <span class="nf">_target_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thread_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A wrapper to take objects off the input queue, pass them to</span>
+<span class="sd">        the main processing function and place the resulting processed</span>
+<span class="sd">        object on the output queue.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">input_q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">Empty</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">conns</span><span class="p">[</span><span class="n">thread_id</span><span class="p">][</span><span class="s">&#39;cconn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="ow">and</span>\
+                        <span class="bp">self</span><span class="o">.</span><span class="n">conns</span><span class="p">[</span><span class="n">thread_id</span><span class="p">][</span><span class="s">&#39;cconn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;KILL&#39;</span><span class="p">:</span>
+                    <span class="k">return</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">output_q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span>
+                                                 <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">extra_args</span><span class="p">[</span><span class="s">&#39;main_init_args&#39;</span><span class="p">],</span>
+                                                 <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">extra_args</span><span class="p">[</span><span class="s">&#39;main_init_kwargs&#39;</span><span class="p">]))</span>
+<span class="c">##########################</span>
+<span class="c">#                        #</span>
+<span class="c">#  FUNCTION DEFINITIONS  #</span>
+<span class="c">#                        #</span>
+<span class="c">##########################</span>
+</div></div>
+<span class="n">isfunction</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">func</span><span class="p">:</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;__call__&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">verify_time</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">UTCDateTime</span><span class="p">)</span> <span class="ow">and</span>\
+            <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span>\
+            <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span>\
+            <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;invalid type for time argument&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">UTCDateTime</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="mi">1000000</span> <span class="ow">and</span> <span class="n">time</span> <span class="o">&lt;=</span> <span class="mi">9999999</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">time</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">julday</span><span class="o">=</span><span class="n">time</span> <span class="o">%</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="n">time</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">julday</span><span class="o">=</span><span class="mi">365</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">59</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">59</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">time</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Malcolm White.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
