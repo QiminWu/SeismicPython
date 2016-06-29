@@ -45,13 +45,13 @@ clean:
 gh-pages:
 	git checkout gh-pages
 	for obj in `ls ..`; do if [ $$obj != sphinx-docs ] && [ $$obj != .nojekyll ]; then echo "rm -rf ../$$obj"; rm -rf ../$$obj; fi; done
-	git checkout dev/docs $(GH_PAGES_SOURCES)
+	git checkout dev/master $(GH_PAGES_SOURCES)
 	git reset HEAD
 	make html
 	mv -fv build/html/* ..
 	git add -A
 	git add ..
-	git commit -m "Generated gh-pages for `git log dev/docs -1 --pretty=short --abbrev-commit`" && git push origin gh-pages ; git checkout dev/docs
+	git commit -m "Generated gh-pages for `git log dev/master -1 --pretty=short --abbrev-commit`" && git push origin gh-pages ; git checkout dev/master
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
