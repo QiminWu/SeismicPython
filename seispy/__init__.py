@@ -1,7 +1,9 @@
 """
-This is top-level documenation. It is coming from seispy/__init__.py doc
-string.
+.. module:: seispy
+.. moduleauthor:: Malcolm White malcolcw@usc.edu
+.. versionadded:: 0.0alpha
 """
+
 import os
 import sys
 
@@ -16,3 +18,6 @@ except ImportError:
 _ANTELOPE_DEFINED = True
 
 __all__ += ["_ANTELOPE_DEFINED"]
+
+_INSTALL_DIR = os.path.split(__file__)[0]
+_DATA_DIR = "%s/data" % _INSTALL_DIR
