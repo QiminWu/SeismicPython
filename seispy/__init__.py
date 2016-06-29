@@ -16,3 +16,8 @@ except ImportError:
 _ANTELOPE_DEFINED = True
 
 __all__ += ["_ANTELOPE_DEFINED"]
+
+_INSTALL_DIR = os.path.split(__file__)[0]
+print _INSTALL_DIR
+print sys.prefix
+print sys.exec_prefix
