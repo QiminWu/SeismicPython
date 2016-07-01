@@ -6,4 +6,5 @@ seispy.util Private Classes
 
    classes/private/_Attribute
    classes/private/_Relation
+   classes/private/_SchemaElement
    classes/private/_TokenParser

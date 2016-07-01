@@ -27,7 +27,7 @@
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <link rel="top" title="SeismicPython 0.0alpha documentation" href="../../../../index.html" />
     <link rel="up" title="seispy.util Private Classes" href="../../private_classes.html" />
-    <link rel="next" title="seispy.schema._TokenParser – _TokenParser class" href="_TokenParser.html" />
+    <link rel="next" title="seispy.schema._SchemaElement – _SchemaElement class" href="_SchemaElement.html" />
     <link rel="prev" title="seispy.schema._Attribute – _Attribute class" href="_Attribute.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="_TokenParser.html" title="seispy.schema._TokenParser – _TokenParser class"
+          <a href="_SchemaElement.html" title="seispy.schema._SchemaElement – _SchemaElement class"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="_Attribute.html" title="seispy.schema._Attribute – _Attribute class"
@@ -62,11 +62,68 @@
 <span id="seispy-schema-relation-relation-class"></span><h1><a class="reference internal" href="#seispy.schema._Relation" title="seispy.schema._Relation"><tt class="xref py py-class docutils literal"><span class="pre">seispy.schema._Relation</span></tt></a> &#8211; _Relation class<a class="headerlink" href="#module-seispy.schema" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="seispy.schema._Relation">
-<em class="property">class </em><tt class="descclassname">seispy.schema.</tt><tt class="descname">_Relation</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_Relation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._Relation" title="Permalink to this definition">¶</a></dt>
-<dd><div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Document this class.</p>
-</div>
+<em class="property">class </em><tt class="descclassname">seispy.schema.</tt><tt class="descname">_Relation</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_Relation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._Relation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="_SchemaElement.html#seispy.schema._SchemaElement" title="seispy.schema._SchemaElement"><tt class="xref py py-class docutils literal"><span class="pre">seispy.schema._SchemaElement</span></tt></a></p>
+<p>Container class to store schema relation definition data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; a <a class="reference external" href="http://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></a> of key-value pairs
+representing relation parameters parsed
+from schema definition</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="69%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Public Methods</th>
+<th class="head">Private Methods</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="#seispy.schema._Relation.sphinx_documentation_block" title="seispy.schema._Relation.sphinx_documentation_block"><tt class="xref py py-meth docutils literal"><span class="pre">sphinx_documentation_block()</span></tt></a></td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="seispy.schema._Relation.sphinx_documentation_block">
+<tt class="descname">sphinx_documentation_block</tt><big>(</big><em>schema='NOSCHEMA'</em>, <em>ref_sufx='_relations'</em>, <em>attr_ref_sufx='_attributes'</em><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_Relation.sphinx_documentation_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._Relation.sphinx_documentation_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Sphinx-formatted documentation text block representing
+relation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>schema</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; the schema to which this relation belongs</li>
+<li><strong>ref_sufx</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; a suffix to append to internal reference
+used in linking Sphinx documentation
+pages</li>
+<li><strong>attr_ref_sufx</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; this should be the same suffix
+used in documenting
+<a class="reference internal" href="_Attribute.html#seispy.schema._Attribute" title="seispy.schema._Attribute"><tt class="xref py py-class docutils literal"><span class="pre">_Attribute</span></tt></a> class in order
+for internal references to work</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Sphinx-formatted documentation text block representing
+relation.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">str</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -81,8 +138,8 @@
   <p class="topless"><a href="_Attribute.html"
                         title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">seispy.schema._Attribute</span></tt> &#8211; _Attribute class</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="_TokenParser.html"
-                        title="next chapter"><tt class="docutils literal"><span class="pre">seispy.schema._TokenParser</span></tt> &#8211; _TokenParser class</a></p>
+  <p class="topless"><a href="_SchemaElement.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">seispy.schema._SchemaElement</span></tt> &#8211; _SchemaElement class</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../../../_sources/seispy/schema/classes/private/_Relation.txt"
@@ -115,7 +172,7 @@
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="_TokenParser.html" title="seispy.schema._TokenParser – _TokenParser class"
+          <a href="_SchemaElement.html" title="seispy.schema._SchemaElement – _SchemaElement class"
              >next</a> |</li>
         <li class="right" >
           <a href="_Attribute.html" title="seispy.schema._Attribute – _Attribute class"

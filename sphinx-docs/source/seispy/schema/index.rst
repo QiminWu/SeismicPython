@@ -11,3 +11,4 @@
    public_classes
    exceptions
    private_classes
+   private_functions

@@ -99,7 +99,7 @@
 <span class="c">#                        #</span>
 <span class="c">##########################</span>
 </div>
-<span class="k">class</span> <span class="nc">_SchemaElement</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="_SchemaElement"><a class="viewcode-back" href="../../seispy/schema/classes/private/_SchemaElement.html#seispy.schema._SchemaElement">[docs]</a><span class="k">class</span> <span class="nc">_SchemaElement</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. todo::</span>
 
@@ -124,14 +124,14 @@
             <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;{:&gt;{width}}:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">)</span>
             <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">{}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">s</span>
-
+</div>
 <div class="viewcode-block" id="_Attribute"><a class="viewcode-back" href="../../seispy/schema/classes/private/_Attribute.html#seispy.schema._Attribute">[docs]</a><span class="k">class</span> <span class="nc">_Attribute</span><span class="p">(</span><span class="n">_SchemaElement</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. todo::</span>
 
 <span class="sd">       Document this class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">sphinx_documentation_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="s">&quot;NOSCHEMA&quot;</span><span class="p">,</span> <span class="n">ref_sufx</span><span class="o">=</span><span class="s">&quot;_attributes&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="_Attribute.sphinx_documentation_block"><a class="viewcode-back" href="../../seispy/schema/classes/private/_Attribute.html#seispy.schema._Attribute.sphinx_documentation_block">[docs]</a>    <span class="k">def</span> <span class="nf">sphinx_documentation_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="s">&quot;NOSCHEMA&quot;</span><span class="p">,</span> <span class="n">ref_sufx</span><span class="o">=</span><span class="s">&quot;_attributes&quot;</span><span class="p">):</span>
         <span class="n">block</span> <span class="o">=</span> <span class="s">&quot;.. _</span><span class="si">%s</span><span class="s">-</span><span class="si">%s%s</span><span class="s">:</span><span class="se">\n\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ref_sufx</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;description&#39;</span><span class="p">):</span>
             <span class="n">title</span> <span class="o">=</span> <span class="s">&quot;**</span><span class="si">%s</span><span class="s">** -- </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
@@ -152,7 +152,7 @@
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;range&#39;</span><span class="p">):</span>
             <span class="n">block</span> <span class="o">+=</span> <span class="s">&quot;* **Range:** </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span>
         <span class="k">return</span> <span class="n">block</span>
-</div>
+</div></div>
 <div class="viewcode-block" id="_Relation"><a class="viewcode-back" href="../../seispy/schema/classes/private/_Relation.html#seispy.schema._Relation">[docs]</a><span class="k">class</span> <span class="nc">_Relation</span><span class="p">(</span><span class="n">_SchemaElement</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. todo::</span>
@@ -175,7 +175,7 @@
         <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;=&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">line_width</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
         <span class="k">return</span> <span class="n">s</span>
 
-    <span class="k">def</span> <span class="nf">sphinx_documentation_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="_Relation.sphinx_documentation_block"><a class="viewcode-back" href="../../seispy/schema/classes/private/_Relation.html#seispy.schema._Relation.sphinx_documentation_block">[docs]</a>    <span class="k">def</span> <span class="nf">sphinx_documentation_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                    <span class="n">schema</span><span class="o">=</span><span class="s">&quot;NOSCHEMA&quot;</span><span class="p">,</span>
                                    <span class="n">ref_sufx</span><span class="o">=</span><span class="s">&quot;_relations&quot;</span><span class="p">,</span>
                                    <span class="n">attr_ref_sufx</span><span class="o">=</span><span class="s">&quot;_attributes&quot;</span><span class="p">):</span>
@@ -220,7 +220,7 @@
 <span class="c">#  PRIVATE CLASSES  #</span>
 <span class="c">#                   #</span>
 <span class="c">#####################</span>
-</div>
+</div></div>
 <div class="viewcode-block" id="_TokenParser"><a class="viewcode-back" href="../../seispy/schema/classes/private/_TokenParser.html#seispy.schema._TokenParser">[docs]</a><span class="k">class</span> <span class="nc">_TokenParser</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    .. todo::</span>
@@ -719,7 +719,7 @@
 <span class="c">#                    #</span>
 <span class="c">######################</span>
 </div></div>
-<span class="k">def</span> <span class="nf">draw_table</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span>
+<div class="viewcode-block" id="draw_table"><a class="viewcode-back" href="../../seispy/schema/public_functions.html#seispy.schema.draw_table">[docs]</a><span class="k">def</span> <span class="nf">draw_table</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span>
                <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                <span class="n">schema</span><span class="o">=</span><span class="s">&quot;NULLSCHEMA&quot;</span><span class="p">,</span>
                <span class="n">ncol</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
@@ -777,7 +777,7 @@
         <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;|</span><span class="se">\n</span><span class="s">&quot;</span>
     <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&quot;+&quot;</span> <span class="o">+</span> <span class="s">&quot;-&quot;</span> <span class="o">*</span> <span class="n">colwidth</span><span class="p">)</span> <span class="o">*</span> <span class="n">ncol</span> <span class="o">+</span> <span class="s">&quot;+</span><span class="se">\n</span><span class="s">&quot;</span>
     <span class="k">return</span> <span class="n">s</span>
-
+</div>
 <span class="k">def</span> <span class="nf">draw_table_dep</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span>
                <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                <span class="n">schema</span><span class="o">=</span><span class="s">&quot;NULLSCHEMA&quot;</span><span class="p">,</span>
@@ -833,11 +833,11 @@
     <span class="n">s</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&quot;+&quot;</span> <span class="o">+</span> <span class="s">&quot;-&quot;</span> <span class="o">*</span> <span class="n">colwidth</span><span class="p">)</span> <span class="o">*</span> <span class="n">ncol</span> <span class="o">+</span> <span class="s">&quot;+</span><span class="se">\n</span><span class="s">&quot;</span>
     <span class="k">return</span> <span class="n">s</span>
 
-<span class="k">def</span> <span class="nf">sort_key</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<div class="viewcode-block" id="sort_key"><a class="viewcode-back" href="../../seispy/schema/public_functions.html#seispy.schema.sort_key">[docs]</a><span class="k">def</span> <span class="nf">sort_key</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_SchemaElement</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">name</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span></div>
 </pre></div>
 
           </div>
