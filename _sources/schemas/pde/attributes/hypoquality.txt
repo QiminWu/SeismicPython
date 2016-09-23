@@ -4,7 +4,7 @@
 ---------------
 
 authority/quality indicator
-(&, \*, % or ?)
+(&, *, % or ?)
 PDE symbol      QED letter      meaning
 &                f           furnished (contributed) hypocenter
 %                n           single network solution

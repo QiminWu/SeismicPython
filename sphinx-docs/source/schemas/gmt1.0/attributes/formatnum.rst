@@ -8,14 +8,14 @@ type of the grid file. Predefined format numbers are:
 
 0. GMT netCDF 4-byte float format [Default]
 1. Native binary single precision floats in scanlines
-   with leading grd header
+with leading grd header
 2. Native binary short integers in scanlines with leading
-   grd header
+grd header
 3. 8-bit standard Sun rasterfile (colormap ignored)
 4. Native binary unsigned char in scanlines with leading
-   grd header
+grd header
 5. Native binary bits in scanlines with leading grd header
-6. Native binary ''surfer'' grid files
+6. Native binary ``surfer'' grid files
 7. netCDF 1-byte byte format
 8. netCDF 1-byte char format
 9. netCDF 2-byte int format

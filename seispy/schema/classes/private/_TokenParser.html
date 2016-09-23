@@ -25,10 +25,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="SeismicPython 0.0alpha documentation" href="../../../../index.html" />
-    <link rel="up" title="seispy.util Private Classes" href="../../private_classes.html" />
-    <link rel="next" title="seispy.schema Private Functions" href="../../private_functions.html" />
-    <link rel="prev" title="seispy.schema._SchemaElement – _SchemaElement class" href="_SchemaElement.html" /> 
+    <link rel="top" title="SeismicPython 0.0alpha documentation" href="../../../../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,16 +37,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../../private_functions.html" title="seispy.schema Private Functions"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="_SchemaElement.html" title="seispy.schema._SchemaElement – _SchemaElement class"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li>
-          <li><a href="../../../index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">seispy</span></tt> &#8211; SeisPy package index</a> &raquo;</li>
-          <li><a href="../../index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">seispy.schema</span></tt> &#8211; seispy.schema module index</a> &raquo;</li>
-          <li><a href="../../private_classes.html" accesskey="U">seispy.util Private Classes</a> &raquo;</li> 
+        <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -59,202 +47,7 @@
           <div class="body">
             
   <div class="section" id="module-seispy.schema">
-<span id="seispy-schema-tokenparser-tokenparser-class"></span><h1><a class="reference internal" href="#seispy.schema._TokenParser" title="seispy.schema._TokenParser"><tt class="xref py py-class docutils literal"><span class="pre">seispy.schema._TokenParser</span></tt></a> &#8211; _TokenParser class<a class="headerlink" href="#module-seispy.schema" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="seispy.schema._TokenParser">
-<em class="property">class </em><tt class="descclassname">seispy.schema.</tt><tt class="descname">_TokenParser</tt><big>(</big><em>input_source</em><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_TokenParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._TokenParser" title="Permalink to this definition">¶</a></dt>
-<dd><p>A parser to parse schema definitions.</p>
-<p>This class provides functionality to parse schema definitions into
-cohesive units. Parsable units are <a class="reference internal" href="#seispy.schema._TokenParser.get_block" title="seispy.schema._TokenParser.get_block"><tt class="xref py py-meth docutils literal"><span class="pre">blocks</span></tt></a>,
-<a class="reference internal" href="#seispy.schema._TokenParser.get_field" title="seispy.schema._TokenParser.get_field"><tt class="xref py py-meth docutils literal"><span class="pre">fields</span></tt></a>, <a class="reference internal" href="#seispy.schema._TokenParser.get_key" title="seispy.schema._TokenParser.get_key"><tt class="xref py py-meth docutils literal"><span class="pre">keys</span></tt></a>, and
-<a class="reference internal" href="#seispy.schema._TokenParser.get_value" title="seispy.schema._TokenParser.get_value"><tt class="xref py py-meth docutils literal"><span class="pre">values</span></tt></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>input_source</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file to be parsed <em>OR</em> a
-<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">str</span></tt></a> containing schema
-definition</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Attributes</strong></p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="45%" />
-<col width="55%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Public Attributes</th>
-<th class="head">Private Attributes</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td rowspan="5">&nbsp;</td>
-<td><a class="reference internal" href="#seispy.schema._TokenParser._block" title="seispy.schema._TokenParser._block"><tt class="xref py py-attr docutils literal"><span class="pre">_block</span></tt></a></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#seispy.schema._TokenParser._block_cursor" title="seispy.schema._TokenParser._block_cursor"><tt class="xref py py-attr docutils literal"><span class="pre">_block_cursor</span></tt></a></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#seispy.schema._TokenParser._field" title="seispy.schema._TokenParser._field"><tt class="xref py py-attr docutils literal"><span class="pre">_field</span></tt></a></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#seispy.schema._TokenParser._stream" title="seispy.schema._TokenParser._stream"><tt class="xref py py-attr docutils literal"><span class="pre">_stream</span></tt></a></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#seispy.schema._TokenParser._type" title="seispy.schema._TokenParser._type"><tt class="xref py py-attr docutils literal"><span class="pre">_type</span></tt></a></td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="seispy.schema._TokenParser._block">
-<tt class="descname">_block</tt><a class="headerlink" href="#seispy.schema._TokenParser._block" title="Permalink to this definition">¶</a></dt>
-<dd><p>Internal buffer to store a <a class="reference internal" href="#seispy.schema._TokenParser.get_block" title="seispy.schema._TokenParser.get_block"><tt class="xref py py-meth docutils literal"><span class="pre">block</span></tt></a> of
-parsed data.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="seispy.schema._TokenParser._block_cursor">
-<tt class="descname">_block_cursor</tt><a class="headerlink" href="#seispy.schema._TokenParser._block_cursor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cursor to track progress in parsing block.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="seispy.schema._TokenParser._field">
-<tt class="descname">_field</tt><a class="headerlink" href="#seispy.schema._TokenParser._field" title="Permalink to this definition">¶</a></dt>
-<dd><p>Internal buffer to store a <a class="reference internal" href="#seispy.schema._TokenParser.get_field" title="seispy.schema._TokenParser.get_field"><tt class="xref py py-meth docutils literal"><span class="pre">field</span></tt></a> of parsed
-data.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="seispy.schema._TokenParser._stream">
-<tt class="descname">_stream</tt><a class="headerlink" href="#seispy.schema._TokenParser._stream" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input stream, from either schema definition file or schema
-definition string.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="seispy.schema._TokenParser._type">
-<tt class="descname">_type</tt><a class="headerlink" href="#seispy.schema._TokenParser._type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input stream type, either <a class="reference external" href="http://docs.python.org/2.7/library/functions.html#file" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">file</span></tt></a> or <a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">str</span></tt></a>.</p>
-</dd></dl>
-
-<p><strong>Methods</strong></p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="53%" />
-<col width="47%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Public Methods</th>
-<th class="head">Private Methods</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td><a class="reference internal" href="#seispy.schema._TokenParser.get_block" title="seispy.schema._TokenParser.get_block"><tt class="xref py py-meth docutils literal"><span class="pre">get_block()</span></tt></a></td>
-<td rowspan="4"><a class="reference internal" href="#seispy.schema._TokenParser._next" title="seispy.schema._TokenParser._next"><tt class="xref py py-meth docutils literal"><span class="pre">_next()</span></tt></a></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#seispy.schema._TokenParser.get_field" title="seispy.schema._TokenParser.get_field"><tt class="xref py py-meth docutils literal"><span class="pre">get_field()</span></tt></a></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#seispy.schema._TokenParser.get_key" title="seispy.schema._TokenParser.get_key"><tt class="xref py py-meth docutils literal"><span class="pre">get_key()</span></tt></a></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#seispy.schema._TokenParser.get_value" title="seispy.schema._TokenParser.get_value"><tt class="xref py py-meth docutils literal"><span class="pre">get_value()</span></tt></a></td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="seispy.schema._TokenParser.get_block">
-<tt class="descname">get_block</tt><big>(</big><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_TokenParser.get_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._TokenParser.get_block" title="Permalink to this definition">¶</a></dt>
-<dd><p>Buffer a <em>block</em> of data.</p>
-<p>A block of data is the largest cohesive unit of data
-<a class="reference internal" href="#seispy.schema._TokenParser" title="seispy.schema._TokenParser"><tt class="xref py py-class docutils literal"><span class="pre">_TokenParser</span></tt></a> can parse. A block is an entire Attribute
-definition, entire Relation definition or a schema definition
-header. This method will both return the parsed block and
-update the <a class="reference internal" href="#seispy.schema._TokenParser._block" title="seispy.schema._TokenParser._block"><tt class="xref py py-attr docutils literal"><span class="pre">_block</span></tt></a> attribute.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">next block of data</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">str</span></tt></a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="seispy.schema._TokenParser.get_field">
-<tt class="descname">get_field</tt><big>(</big><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_TokenParser.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._TokenParser.get_field" title="Permalink to this definition">¶</a></dt>
-<dd><p>Buffer a <em>field</em> of data.</p>
-<p>A field of data is one key-value pair. This method will both
-return the parsed field, and update the <a class="reference internal" href="#seispy.schema._TokenParser._field" title="seispy.schema._TokenParser._field"><tt class="xref py py-attr docutils literal"><span class="pre">_field</span></tt></a>
-attribute.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">next field in block if one exists, otherwise <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-data docutils literal"><span class="pre">None</span></tt></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">str`or</span> <span class="pre">:data:`None</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="seispy.schema._TokenParser.get_key">
-<tt class="descname">get_key</tt><big>(</big><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_TokenParser.get_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._TokenParser.get_key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return field key.</p>
-<p>A <em>key</em> is, along with a <em>value</em>, one of the two smallest
-cohesive data units. Examples of keys in an attribute
-definition are <em>Format</em>, <em>Detail</em> and <em>Null</em>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">key in buffered field</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">str</span></tt></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-data docutils literal"><span class="pre">None</span></tt></a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="seispy.schema._TokenParser.get_value">
-<tt class="descname">get_value</tt><big>(</big><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_TokenParser.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._TokenParser.get_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return field value.</p>
-<p>A <em>value</em> is, along with a <em>key</em>, one of the two smallest
-cohesive data units.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">buffered field value</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">str</span></tt></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-data docutils literal"><span class="pre">None</span></tt></a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="seispy.schema._TokenParser._next">
-<tt class="descname">_next</tt><big>(</big><big>)</big><a class="headerlink" href="#seispy.schema._TokenParser._next" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the next character in <a class="reference internal" href="#seispy.schema._TokenParser._stream" title="seispy.schema._TokenParser._stream"><tt class="xref py py-attr docutils literal"><span class="pre">_stream</span></tt></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">next character in <a class="reference internal" href="#seispy.schema._TokenParser._stream" title="seispy.schema._TokenParser._stream"><tt class="xref py py-attr docutils literal"><span class="pre">_stream</span></tt></a> if one exists,
-otherwise <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-data docutils literal"><span class="pre">None</span></tt></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">str</span></tt></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-data docutils literal"><span class="pre">None</span></tt></a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
+<span id="seispy-schema-tokenparser-tokenparser-class"></span><h1><tt class="xref py py-class docutils literal"><span class="pre">seispy.schema._TokenParser</span></tt> &#8211; _TokenParser class<a class="headerlink" href="#module-seispy.schema" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -263,12 +56,6 @@ otherwise <a class="reference external" href="http://docs.python.org/2.7/library
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="_SchemaElement.html"
-                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">seispy.schema._SchemaElement</span></tt> &#8211; _SchemaElement class</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../../private_functions.html"
-                        title="next chapter">seispy.schema Private Functions</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../../../_sources/seispy/schema/classes/private/_TokenParser.txt"
@@ -300,16 +87,7 @@ otherwise <a class="reference external" href="http://docs.python.org/2.7/library
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../../private_functions.html" title="seispy.schema Private Functions"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="_SchemaElement.html" title="seispy.schema._SchemaElement – _SchemaElement class"
-             >previous</a> |</li>
-        <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li>
-          <li><a href="../../../index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">seispy</span></tt> &#8211; SeisPy package index</a> &raquo;</li>
-          <li><a href="../../index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">seispy.schema</span></tt> &#8211; seispy.schema module index</a> &raquo;</li>
-          <li><a href="../../private_classes.html" >seispy.util Private Classes</a> &raquo;</li> 
+        <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

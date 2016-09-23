@@ -47,8 +47,8 @@
           <a href="../../public_classes.html" title="seispy.core Public Classes"
              accesskey="P">previous</a> |</li>
         <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li>
-          <li><a href="../../../index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal"><span class="pre">seispy</span></tt> &#8211; SeisPy package index</a> &raquo;</li>
-          <li><a href="../../index.html" ><tt class="docutils literal docutils literal docutils literal"><span class="pre">seispy.core</span></tt> &#8211; seispy.core module index</a> &raquo;</li>
+          <li><a href="../../../index.html" ><tt class="docutils literal"><span class="pre">seispy</span></tt> &#8211; SeisPy package index</a> &raquo;</li>
+          <li><a href="../../index.html" ><tt class="docutils literal"><span class="pre">seispy.core</span></tt> &#8211; seispy.core module index</a> &raquo;</li>
           <li><a href="../../public_classes.html" accesskey="U">seispy.core Public Classes</a> &raquo;</li> 
       </ul>
     </div>  
@@ -62,48 +62,8 @@
 <span id="seispy-core-arrival-arrival-class"></span><h1><a class="reference internal" href="#seispy.core.Arrival" title="seispy.core.Arrival"><tt class="xref py py-class docutils literal"><span class="pre">seispy.core.Arrival</span></tt></a> &#8211; Arrival class<a class="headerlink" href="#module-seispy.core" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="seispy.core.Arrival">
-<em class="property">class </em><tt class="descclassname">seispy.core.</tt><tt class="descname">Arrival</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../../../../_modules/seispy/core.html#Arrival"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.core.Arrival" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../private/_DbParsable.html#seispy.core._DbParsable" title="seispy.core._DbParsable"><tt class="xref py py-class docutils literal"><span class="pre">seispy.core._DbParsable</span></tt></a></p>
-<p>The Arrival class is a container class for phase arrival data and
-can be initialized one of two ways.</p>
-<ol class="arabic simple">
-<li>Specifying a series of keyword arguments initializing individual
-fields. If initializating via keyword arguments primary keys
-<em>sta</em>, <em>time</em>, and <em>iphase</em> must be specified.</li>
-</ol>
-<p><strong>OR</strong></p>
-<ol class="arabic simple" start="2">
-<li>Passing in a seispy.antelope.datascope.Dbptr object that points
-to a record in an <em>arrival</em> table.</li>
-</ol>
-<p>The second method of initialization is intended primarily for
-internal use within the seispy package.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>args</strong> (<em>seispy.antelope.datascope.Dbptr</em>) &#8211; Database pointer    to record in <em>arrival</em> table</li>
-<li><strong>sta</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Station code</li>
-<li><strong>time</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Arrival time</li>
-<li><strong>iphase</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Interpreted phase</li>
-<li><strong>chan</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Channel code</li>
-<li><strong>deltim</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Arrival timing error</li>
-<li><strong>qual</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Pick quality (&#8216;i&#8217;=impulsive, &#8216;e&#8217;=emergent,                         &#8216;w&#8217;=weak)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Raises InitializationError:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last">if initialization method 2 is used and
-primary keys (<em>sta</em>, <em>time</em>, and
-<em>iphase</em>) are not specified.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="versionadded">
-<span class="versionmodified">New in version 0.0alpha.</span></p>
-</dd></dl>
+<em class="property">class </em><tt class="descclassname">seispy.core.</tt><tt class="descname">Arrival</tt><big>(</big><em>sta</em>, <em>time</em>, <em>phase</em>, <em>arid=-1</em><big>)</big><a class="reference internal" href="../../../../_modules/seispy/core.html#Arrival"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.core.Arrival" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 
@@ -157,8 +117,8 @@ primary keys (<em>sta</em>, <em>time</em>, and
           <a href="../../public_classes.html" title="seispy.core Public Classes"
              >previous</a> |</li>
         <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li>
-          <li><a href="../../../index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal"><span class="pre">seispy</span></tt> &#8211; SeisPy package index</a> &raquo;</li>
-          <li><a href="../../index.html" ><tt class="docutils literal docutils literal docutils literal"><span class="pre">seispy.core</span></tt> &#8211; seispy.core module index</a> &raquo;</li>
+          <li><a href="../../../index.html" ><tt class="docutils literal"><span class="pre">seispy</span></tt> &#8211; SeisPy package index</a> &raquo;</li>
+          <li><a href="../../index.html" ><tt class="docutils literal"><span class="pre">seispy.core</span></tt> &#8211; seispy.core module index</a> &raquo;</li>
           <li><a href="../../public_classes.html" >seispy.core Public Classes</a> &raquo;</li> 
       </ul>
     </div>

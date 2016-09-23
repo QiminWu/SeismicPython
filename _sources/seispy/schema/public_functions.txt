@@ -1,7 +1,0 @@
-seispy.schema Public Functions
-==============================
-.. currentmodule:: seispy.schema
-
-.. autofunction:: draw_table
-
-.. autofunction:: sort_key

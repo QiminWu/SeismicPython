@@ -25,10 +25,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="SeismicPython 0.0alpha documentation" href="../../../../index.html" />
-    <link rel="up" title="seispy.util Private Classes" href="../../private_classes.html" />
-    <link rel="next" title="seispy.schema._Relation – _Relation class" href="_Relation.html" />
-    <link rel="prev" title="seispy.util Private Classes" href="../../private_classes.html" /> 
+    <link rel="top" title="SeismicPython 0.0alpha documentation" href="../../../../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,16 +37,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="_Relation.html" title="seispy.schema._Relation – _Relation class"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../../private_classes.html" title="seispy.util Private Classes"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li>
-          <li><a href="../../../index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">seispy</span></tt> &#8211; SeisPy package index</a> &raquo;</li>
-          <li><a href="../../index.html" ><tt class="docutils literal docutils literal"><span class="pre">seispy.schema</span></tt> &#8211; seispy.schema module index</a> &raquo;</li>
-          <li><a href="../../private_classes.html" accesskey="U">seispy.util Private Classes</a> &raquo;</li> 
+        <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -59,76 +47,7 @@
           <div class="body">
             
   <div class="section" id="module-seispy.schema">
-<span id="seispy-schema-attribute-attribute-class"></span><h1><a class="reference internal" href="#seispy.schema._Attribute" title="seispy.schema._Attribute"><tt class="xref py py-class docutils literal"><span class="pre">seispy.schema._Attribute</span></tt></a> &#8211; _Attribute class<a class="headerlink" href="#module-seispy.schema" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="seispy.schema._Attribute">
-<em class="property">class </em><tt class="descclassname">seispy.schema.</tt><tt class="descname">_Attribute</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_Attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._Attribute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="_SchemaElement.html#seispy.schema._SchemaElement" title="seispy.schema._SchemaElement"><tt class="xref py py-class docutils literal"><span class="pre">seispy.schema._SchemaElement</span></tt></a></p>
-<p>Container class to store schema attribute definition data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; a double-dereferenced <a class="reference external" href="http://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></a>
-consisting of key-value pairs
-representing attribute parameters parsed
-from schema definition</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Class constructor attempts to convert attribute null
-value to the correct data type before calling base-class
-constructor.</p>
-</div>
-<p><strong>Methods</strong></p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="69%" />
-<col width="31%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Public Methods</th>
-<th class="head">Private Methods</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td><a class="reference internal" href="#seispy.schema._Attribute.sphinx_documentation_block" title="seispy.schema._Attribute.sphinx_documentation_block"><tt class="xref py py-meth docutils literal"><span class="pre">sphinx_documentation_block()</span></tt></a></td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="seispy.schema._Attribute.sphinx_documentation_block">
-<tt class="descname">sphinx_documentation_block</tt><big>(</big><em>schema='NOSCHEMA'</em>, <em>ref_sufx='_attributes'</em><big>)</big><a class="reference internal" href="../../../../_modules/seispy/schema.html#_Attribute.sphinx_documentation_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seispy.schema._Attribute.sphinx_documentation_block" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return Sphinx-formatted documentation text block representing
-attribute.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>schema</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; the schema to which this attribute belongs</li>
-<li><strong>ref_sufx</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; a suffix to append to internal reference
-used in linking Sphinx documentation
-pages</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Sphinx-formatted documentation text block representing
-attribute.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">str</span></tt></a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
+<span id="seispy-schema-attribute-attribute-class"></span><h1><tt class="xref py py-class docutils literal"><span class="pre">seispy.schema._Attribute</span></tt> &#8211; _Attribute class<a class="headerlink" href="#module-seispy.schema" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -137,12 +56,6 @@ attribute.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../../private_classes.html"
-                        title="previous chapter">seispy.util Private Classes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="_Relation.html"
-                        title="next chapter"><tt class="docutils literal"><span class="pre">seispy.schema._Relation</span></tt> &#8211; _Relation class</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../../../_sources/seispy/schema/classes/private/_Attribute.txt"
@@ -174,16 +87,7 @@ attribute.</p>
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="_Relation.html" title="seispy.schema._Relation – _Relation class"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../../private_classes.html" title="seispy.util Private Classes"
-             >previous</a> |</li>
-        <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li>
-          <li><a href="../../../index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">seispy</span></tt> &#8211; SeisPy package index</a> &raquo;</li>
-          <li><a href="../../index.html" ><tt class="docutils literal docutils literal"><span class="pre">seispy.schema</span></tt> &#8211; seispy.schema module index</a> &raquo;</li>
-          <li><a href="../../private_classes.html" >seispy.util Private Classes</a> &raquo;</li> 
+        <li><a href="../../../../index.html">SeismicPython 0.0alpha documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -15,4 +15,5 @@ seispy.core Public Classes
    classes/public/Station
    classes/public/Trace
    classes/public/VirtualNetwork
+   classes/public/exceptions/exceptions
    classes/public/iterators/iterators

@@ -5,7 +5,7 @@
 
 pointer to the array of adapative weights for all tapers, ie
 the nth weight for taper j is
-\*(weight + j \* nfft + n),  c
+*(weight + j * nfft + n),  c
 or
 weight(n,j)    FORTRAN
 

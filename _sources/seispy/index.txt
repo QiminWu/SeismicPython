@@ -6,5 +6,4 @@ Module and sub-module index of SeisPy package.
    :maxdepth: 2
 
    core/index
-   schema/index
    util/index

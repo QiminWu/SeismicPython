@@ -16,7 +16,6 @@ Contents:
    :maxdepth: 2
 
    seispy/index
-   gazelle/index
    schemas/index
 
 Indices and tables

@@ -10,5 +10,4 @@
    :maxdepth: 3
 
    public_classes
-   exceptions
    private_classes
